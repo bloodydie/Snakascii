@@ -52,6 +52,7 @@ appleImg.onload = function() {
   var score = 0;
   var gameStarted = false;
   var gameOver = false;
+  var restartKeyPressed = false;
 
   var snake = {
     x: 160,
@@ -84,6 +85,7 @@ appleImg.onload = function() {
     apple.x = getRandomInt(0, 25) * grid;
     apple.y = getRandomInt(0, 25) * grid;
     gameOver = false;
+    restartKeyPressed = false;
     scoreElement.textContent = "Score: " + score;
     gameOverElement.style.display = 'none';
     loop();
@@ -95,11 +97,17 @@ appleImg.onload = function() {
   }
 
   function loop() {
-    if (gameOver) return;
+    if (gameOver) {
+      if (!restartKeyPressed) {
+        return;
+      }
+      restartKeyPressed = false;
+      startGame();
+    }
 
     requestAnimationFrame(loop);
 
-    if (++count < 6) {
+    if (++count < 6 || !gameStarted) {
       return;
     }
 
@@ -153,7 +161,7 @@ appleImg.onload = function() {
     } else {
       if (gameOver) {
         if (e.which === 32) {
-          startGame();
+          restartKeyPressed = true;
         }
       } else {
         if (e.which === 37 && snake.dx === 0) {
