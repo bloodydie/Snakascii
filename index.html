@@ -21,6 +21,10 @@
   </style>
 </head>
 <body>
+<audio id="eatSound">
+  <source src="mange.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 <canvas width="400" height="400" id="game"></canvas>
 <script>
 var canvas = document.getElementById('game');
@@ -114,6 +118,10 @@ function loop() {
       // canvas is 400x400 which is 25x25 grids
       apple.x = getRandomInt(0, 25) * grid;
       apple.y = getRandomInt(0, 25) * grid;
+
+      // Trigger sound
+      var eatSound = document.getElementById('eatSound');
+      eatSound.play();
     }
 
     // check collision with all cells after this one (modified bubble sort)
