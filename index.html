@@ -26,7 +26,6 @@
   #gameOver {
     color: white;
     font-size: 30px;
-    display: none;
   }
   #instruction {
     color: white;
@@ -45,7 +44,7 @@
 </audio>
 <canvas width="400" height="400" id="game"></canvas>
 <div id="score">Score: 0</div>
-<div id="gameOver">Game Over<br>Press Space to Restart</div>
+<div id="gameOver" style="display:none">GAME OVER<br>Press F5 to Restart</div>
 <div id="instruction">Press Space to Start</div>
 <script>
 var canvas = document.getElementById('game');
@@ -70,7 +69,6 @@ snakeHeadImg.onload = function() {
   var score = 0;
   var gameStarted = false;
   var gameOver = false;
-  var restartKeyPressed = false;
 
   var snake = {
     x: 160,
@@ -104,7 +102,6 @@ snakeHeadImg.onload = function() {
     apple.x = getRandomInt(0, 25) * grid;
     apple.y = getRandomInt(0, 25) * grid;
     gameOver = false;
-    restartKeyPressed = false;
     scoreElement.textContent = "Score: " + score;
     gameOverElement.style.display = 'none';
     loop();
@@ -119,21 +116,14 @@ snakeHeadImg.onload = function() {
 
   function loop() {
     if (gameOver) {
-      if (restartKeyPressed) {
-        startGame();
-        return;
-      }
-      requestAnimationFrame(loop); // Keep the loop running
+      requestAnimationFrame(loop); // Garder la boucle en cours
       return;
     }
 
-    requestAnimationFrame(loop);
+    setTimeout(function() {
+      requestAnimationFrame(loop);
+    }, 1000 / 4); // 25% plus lent, 1000ms/4 = 250ms (4 fois par seconde)
 
-    if (++count < 6 || !gameStarted) {
-      return;
-    }
-
-    count = 0;
     context.clearRect(0,0,canvas.width,canvas.height);
 
     snake.x += snake.dx;
@@ -181,24 +171,18 @@ snakeHeadImg.onload = function() {
         startGame();
       }
     } else {
-      if (gameOver) {
-        if (e.which === 32) {
-          restartKeyPressed = true;
-        }
-      } else {
-        if (e.which === 37 && snake.dx === 0) {
-          snake.dx = -grid;
-          snake.dy = 0;
-        } else if (e.which === 38 && snake.dy === 0) {
-          snake.dy = -grid;
-          snake.dx = 0;
-        } else if (e.which === 39 && snake.dx === 0) {
-          snake.dx = grid;
-          snake.dy = 0;
-        } else if (e.which === 40 && snake.dy === 0) {
-          snake.dy = grid;
-          snake.dx = 0;
-        }
+      if (e.which === 37 && snake.dx === 0) {
+        snake.dx = -grid;
+        snake.dy = 0;
+      } else if (e.which === 38 && snake.dy === 0) {
+        snake.dy = -grid;
+        snake.dx = 0;
+      } else if (e.which === 39 && snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+      } else if (e.which === 40 && snake.dy === 0) {
+        snake.dy = grid;
+        snake.dx = 0;
       }
     }
   });
