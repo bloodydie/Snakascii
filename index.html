@@ -121,6 +121,12 @@ function loop() {
 
       // Trigger sound
       var eatSound = document.getElementById('eatSound');
+      eatSound.onloadeddata = function() {
+        console.log("Audio loaded successfully.");
+      };
+      eatSound.onerror = function() {
+        console.error("Error loading audio.");
+      };
       eatSound.play();
     }
 
