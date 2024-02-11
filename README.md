@@ -1,7 +1,7 @@
 # Snake
 Le jeu Snake en HTML
 
-Deplacez Snaki le serpent malicieux mangeur de pomme avec vos touches directionnels.
-Toute les 5 Pommes vous passez un niveau mais ATTENTION !!.. Plus vous passez de niveaux plus le jeu deviens dificile !
+Déplacez Snaki, le serpent malicieux mangeur de pommes, avec vos touches directionnelles.
+Toutes les 5 pommes, vous passez un niveau mais ATTENTION !! Plus vous passez de niveaux, plus le jeu devient difficile !
 
 Bonne chance !
