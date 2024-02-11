@@ -1,2 +1,2 @@
-# Snakascii
-Le jeu Snake en ASCII
+# Snake
+Le jeu Snake en HTML
