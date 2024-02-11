@@ -113,11 +113,11 @@ snakeHeadImg.onload = function() {
 
   function loop() {
     if (gameOver) {
-      if (!restartKeyPressed) {
+      if (restartKeyPressed) {
+        startGame();
         return;
       }
-      restartKeyPressed = false;
-      startGame();
+      return;
     }
 
     requestAnimationFrame(loop);
