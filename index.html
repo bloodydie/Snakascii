@@ -26,10 +26,6 @@
   </style>
 </head>
 <body>
-<audio id="bgMusic" loop preload="auto">
-  <source src="music.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
 <audio id="eatSound" preload="auto">
   <source src="mange.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
@@ -44,16 +40,6 @@ var scoreElement = document.getElementById('score');
 // Load apple image
 var appleImg = new Image();
 appleImg.src = 'pomme.png';
-
-// Play background music
-var bgMusic = document.getElementById('bgMusic');
-bgMusic.onloadeddata = function() {
-  console.log("Background music loaded successfully.");
-  bgMusic.play();
-};
-bgMusic.onerror = function() {
-  console.error("Error loading background music.");
-};
 
 // the canvas width & height, snake x & y, and the apple x & y, all need to be multiples of the grid size in order for collision detection to work
 // (e.g. 16 * 25 = 400)
