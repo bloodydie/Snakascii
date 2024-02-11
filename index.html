@@ -210,16 +210,20 @@ snakeHeadImg.onload = function() {
         startGame();
       }
     } else {
-      if (e.which === 37 && snake.dx === 0) {
+      if (e.which === 37 && snake.dx === 0) { // Gauche
+        if (snake.cells.length > 1 && snake.cells[1].x === snake.x - grid) return; // Empêcher le demi-tour
         snake.dx = -grid;
         snake.dy = 0;
-      } else if (e.which === 38 && snake.dy === 0) {
+      } else if (e.which === 38 && snake.dy === 0) { // Haut
+        if (snake.cells.length > 1 && snake.cells[1].y === snake.y - grid) return; // Empêcher le demi-tour
         snake.dy = -grid;
         snake.dx = 0;
-      } else if (e.which === 39 && snake.dx === 0) {
+      } else if (e.which === 39 && snake.dx === 0) { // Droite
+        if (snake.cells.length > 1 && snake.cells[1].x === snake.x + grid) return; // Empêcher le demi-tour
         snake.dx = grid;
         snake.dy = 0;
-      } else if (e.which === 40 && snake.dy === 0) {
+      } else if (e.which === 40 && snake.dy === 0) { // Bas
+        if (snake.cells.length > 1 && snake.cells[1].y === snake.y + grid) return; // Empêcher le demi-tour
         snake.dy = grid;
         snake.dx = 0;
       }
