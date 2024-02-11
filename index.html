@@ -61,10 +61,7 @@
 <div id="level">Level: 1</div>
 <div id="gameOver" style="display:none">
   GAME OVER<br>
-  <form id="nameForm">
-    Enter your name: <input type="text" id="playerName"><br>
-    <button type="submit">Submit</button>
-  </form>
+  Maybe next time.. Press F5 to restart.
 </div>
 <div id="instruction">Press Space to Start</div>
 <script>
@@ -74,9 +71,6 @@ var scoreElement = document.getElementById('score');
 var levelElement = document.getElementById('level');
 var gameOverElement = document.getElementById('gameOver');
 var instructionElement = document.getElementById('instruction');
-var leaderboardElement = document.getElementById('leaderboard');
-var playerNameInput = document.getElementById('playerName');
-var nameForm = document.getElementById('nameForm');
 
 // Load images
 var snakeHeadImg = new Image();
@@ -233,10 +227,6 @@ snakeHeadImg.onload = function() {
     }
   });
 
-  nameForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    endGame();
-  });
 };
 </script>
 </body>
