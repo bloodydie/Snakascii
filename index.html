@@ -24,6 +24,10 @@
     color: white;
     font-size: 20px;
   }
+  #level {
+    color: white;
+    font-size: 20px;
+  }
   #gameOver {
     color: white;
     font-size: 30px;
@@ -49,6 +53,7 @@
 </audio>
 <canvas width="400" height="400" id="game"></canvas>
 <div id="score">Score: 0</div>
+<div id="level">Level: 1</div>
 <div id="gameOver" style="display:none">
   GAME OVER<br>
   Press F5 to restart.
@@ -58,6 +63,7 @@
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 var scoreElement = document.getElementById('score');
+var levelElement = document.getElementById('level');
 var gameOverElement = document.getElementById('gameOver');
 var instructionElement = document.getElementById('instruction');
 
@@ -114,6 +120,7 @@ snakeHeadImg.onload = function() {
     gameOver = false;
     applesEaten = 0;
     scoreElement.textContent = "Score: " + score;
+    levelElement.textContent = "Level: " + level;
     gameOverElement.style.display = 'none';
     loop();
   }
@@ -180,6 +187,7 @@ snakeHeadImg.onload = function() {
           gameSpeed += gameSpeed * 0.1; // Augmente la vitesse de 10%
           var levelUpSound = document.getElementById('levelUpSound');
           levelUpSound.play();
+          levelElement.textContent = "Level: " + level;
         }
       }
 
@@ -214,6 +222,10 @@ snakeHeadImg.onload = function() {
     }
   });
 
+  nameForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    endGame();
+  });
 };
 </script>
 </body>
