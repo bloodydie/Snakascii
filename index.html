@@ -42,6 +42,10 @@
   <source src="die.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+<audio id="levelUpSound" preload="auto">
+  <source src="levelup.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 <canvas width="400" height="400" id="game"></canvas>
 <div id="score">Score: 0</div>
 <div id="gameOver" style="display:none">GAME OVER<br>Press F5 to Restart</div>
@@ -69,6 +73,8 @@ snakeHeadImg.onload = function() {
   var score = 0;
   var gameStarted = false;
   var gameOver = false;
+  var applesEaten = 0;
+  var gameSpeed = 4;
 
   var snake = {
     x: 160,
@@ -102,6 +108,7 @@ snakeHeadImg.onload = function() {
     apple.x = getRandomInt(0, 25) * grid;
     apple.y = getRandomInt(0, 25) * grid;
     gameOver = false;
+    applesEaten = 0;
     scoreElement.textContent = "Score: " + score;
     gameOverElement.style.display = 'none';
     loop();
@@ -122,13 +129,14 @@ snakeHeadImg.onload = function() {
 
     setTimeout(function() {
       requestAnimationFrame(loop);
-    }, 1000 / 4); // 25% plus lent, 1000ms/4 = 250ms (4 fois par seconde)
+    }, 1000 / gameSpeed); // Vitesse du jeu
 
     context.clearRect(0,0,canvas.width,canvas.height);
 
     snake.x += snake.dx;
     snake.y += snake.dy;
 
+    // Collision avec les bords du canvas
     if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
       endGame();
       return;
@@ -154,6 +162,14 @@ snakeHeadImg.onload = function() {
         scoreElement.textContent = "Score: " + score;
         var eatSound = document.getElementById('eatSound');
         eatSound.play();
+        applesEaten++;
+
+        // Vérifie si 10 pommes ont été mangées
+        if (applesEaten % 10 === 0) {
+          gameSpeed += gameSpeed * 0.05; // Augmente la vitesse de 5%
+          var levelUpSound = document.getElementById('levelUpSound');
+          levelUpSound.play();
+        }
       }
 
       for (var i = index + 1; i < snake.cells.length; i++) {
