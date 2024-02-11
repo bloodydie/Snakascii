@@ -28,6 +28,10 @@
     font-size: 30px;
     display: none;
   }
+  #instruction {
+    color: white;
+    font-size: 20px;
+  }
   </style>
 </head>
 <body>
@@ -38,15 +42,25 @@
 <canvas width="400" height="400" id="game"></canvas>
 <div id="score">Score: 0</div>
 <div id="gameOver">Game Over<br>Press Space to Restart</div>
+<div id="instruction">Press Space to Start</div>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 var scoreElement = document.getElementById('score');
 var gameOverElement = document.getElementById('gameOver');
+var instructionElement = document.getElementById('instruction');
 
-// Load apple image
+// Load images
+var snakeHeadImg = new Image();
+snakeHeadImg.src = 'snakehead.png';
+
+var snakeBodyImg = new Image();
+snakeBodyImg.src = 'snakebody.png';
+
 var appleImg = new Image();
-appleImg.onload = function() {
+appleImg.src = 'pomme.png';
+
+snakeHeadImg.onload = function() {
   var grid = 16;
   var count = 0;
   var score = 0;
@@ -75,6 +89,7 @@ appleImg.onload = function() {
 
   function startGame() {
     gameStarted = true;
+    instructionElement.style.display = 'none';
     score = 0;
     snake.x = 160;
     snake.y = 160;
@@ -130,9 +145,9 @@ appleImg.onload = function() {
 
     context.drawImage(appleImg, apple.x, apple.y, grid-1, grid-1);
 
-    context.fillStyle = 'green';
     snake.cells.forEach(function(cell, index) {
-      context.fillRect(cell.x, cell.y, grid-1, grid-1);
+      var img = index === 0 ? snakeHeadImg : snakeBodyImg;
+      context.drawImage(img, cell.x, cell.y, grid-1, grid-1);
 
       if (cell.x === apple.x && cell.y === apple.y) {
         snake.maxCells++;
@@ -181,7 +196,6 @@ appleImg.onload = function() {
     }
   });
 };
-appleImg.src = 'pomme.png';
 </script>
 </body>
 </html>
