@@ -32,11 +32,6 @@
     color: white;
     font-size: 20px;
   }
-  #leaderboard {
-    color: white;
-    font-size: 20px;
-    margin-top: 20px;
-  }
   </style>
 </head>
 <body>
@@ -56,25 +51,15 @@
 <div id="score">Score: 0</div>
 <div id="gameOver" style="display:none">
   GAME OVER<br>
-  <form id="nameForm">
-    Enter your name: <input type="text" id="playerName"><br>
-    <button type="submit">Submit</button>
-  </form>
+  Press F5 to restart.
 </div>
 <div id="instruction">Press Space to Start</div>
-<div id="leaderboard">
-  <h2>Leaderboard</h2>
-  <ol id="leaderboardList"></ol>
-</div>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 var scoreElement = document.getElementById('score');
 var gameOverElement = document.getElementById('gameOver');
 var instructionElement = document.getElementById('instruction');
-var leaderboardElement = document.getElementById('leaderboard');
-var playerNameInput = document.getElementById('playerName');
-var nameForm = document.getElementById('nameForm');
 
 // Load images
 var snakeHeadImg = new Image();
@@ -88,7 +73,6 @@ appleImg.src = 'pomme.png';
 
 snakeHeadImg.onload = function() {
   var grid = 16;
-  var count = 0;
   var score = 0;
   var gameStarted = false;
   var gameOver = false;
@@ -139,11 +123,6 @@ snakeHeadImg.onload = function() {
     gameOverElement.style.display = 'block';
     var dieSound = document.getElementById('dieSound');
     dieSound.play();
-
-    // Ajouter le score au leaderboard
-    var playerName = playerNameInput.value.trim() || "Anonymous";
-    addToLeaderboard(playerName, score);
-    updateLeaderboard();
   }
 
   function loop() {
@@ -195,8 +174,8 @@ snakeHeadImg.onload = function() {
         eatSound.play();
         applesEaten++;
 
-        // Vérifie si 10 pommes ont été mangées
-        if (applesEaten % 10 === 0) {
+        // Vérifie si 5 pommes ont été mangées
+        if (applesEaten % 5 === 0) {
           level++;
           gameSpeed += gameSpeed * 0.1; // Augmente la vitesse de 10%
           var levelUpSound = document.getElementById('levelUpSound');
@@ -235,47 +214,6 @@ snakeHeadImg.onload = function() {
     }
   });
 
-  function addToLeaderboard(name, score) {
-    fetch('leaderboard.json')
-      .then(response => response.json())
-      .then(data => {
-        data.push({ name: name, score: score });
-        data.sort((a, b) => b.score - a.score); // Trier par score décroissant
-        return data;
-      })
-      .then(data => {
-        fetch('leaderboard.json', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-      })
-      .catch(error => console.error('Error updating leaderboard:', error));
-  }
-
-  function updateLeaderboard() {
-    fetch('leaderboard.json')
-      .then(response => response.json())
-      .then(data => {
-        var leaderboardList = document.getElementById('leaderboardList');
-        leaderboardList.innerHTML = ''; // Efface les anciennes entrées du leaderboard
-        data.forEach((entry, index) => {
-          var listItem = document.createElement('li');
-          listItem.textContent = `${index + 1}. ${entry.name}: ${entry.score}`;
-          leaderboardList.appendChild(listItem);
-        });
-      })
-      .catch(error => console.error('Error updating leaderboard:', error));
-  }
-
-  updateLeaderboard();
-
-  nameForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    endGame();
-  });
 };
 </script>
 </body>
