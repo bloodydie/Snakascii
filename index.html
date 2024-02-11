@@ -188,7 +188,7 @@ snakeHeadImg.onload = function() {
         // Vérifie si 5 pommes ont été mangées
         if (applesEaten % 5 === 0) {
           level++;
-          gameSpeed += gameSpeed * 0.2; // Augmente la vitesse de 20%
+          gameSpeed += gameSpeed * 0.3; // Augmente la vitesse de 30%
           var levelUpSound = document.getElementById('levelUpSound');
           levelUpSound.play();
           levelElement.textContent = "Level: " + level;
