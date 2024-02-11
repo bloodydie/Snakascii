@@ -14,26 +14,44 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
   }
   canvas {
     border: 1px solid white;
   }
+  #score {
+    color: white;
+    font-size: 20px;
+  }
   </style>
 </head>
 <body>
-<audio id="eatSound">
-  <source src="mange.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 <canvas width="400" height="400" id="game"></canvas>
+<div id="score">Score: 0</div>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
+var scoreElement = document.getElementById('score');
+
+// Play background music
+var bgMusic = document.getElementById('bgMusic');
+bgMusic.onloadeddata = function() {
+  console.log("Background music loaded successfully.");
+};
+bgMusic.onerror = function() {
+  console.error("Error loading background music.");
+};
+bgMusic.play();
 
 // the canvas width & height, snake x & y, and the apple x & y, all need to be multiples of the grid size in order for collision detection to work
 // (e.g. 16 * 25 = 400)
 var grid = 16;
 var count = 0;
+var score = 0;
 
 var snake = {
   x: 160,
@@ -119,6 +137,10 @@ function loop() {
       apple.x = getRandomInt(0, 25) * grid;
       apple.y = getRandomInt(0, 25) * grid;
 
+      // Increment score
+      score++;
+      scoreElement.textContent = "Score: " + score;
+
       // Trigger sound
       var eatSound = document.getElementById('eatSound');
       eatSound.onloadeddata = function() {
@@ -144,6 +166,9 @@ function loop() {
 
         apple.x = getRandomInt(0, 25) * grid;
         apple.y = getRandomInt(0, 25) * grid;
+
+        score = 0;
+        scoreElement.textContent = "Score: " + score;
       }
     }
   });
