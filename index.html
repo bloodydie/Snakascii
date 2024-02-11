@@ -24,15 +24,20 @@
     color: white;
     font-size: 20px;
   }
-  #level {
-    color: white;
-    font-size: 20px;
-  }
   #gameOver {
     color: white;
     font-size: 30px;
   }
   #instruction {
+    color: white;
+    font-size: 20px;
+  }
+  #leaderboard {
+    color: white;
+    font-size: 20px;
+    margin-top: 20px;
+  }
+  #level {
     color: white;
     font-size: 20px;
   }
@@ -56,7 +61,10 @@
 <div id="level">Level: 1</div>
 <div id="gameOver" style="display:none">
   GAME OVER<br>
-  Press F5 to restart.
+  <form id="nameForm">
+    Enter your name: <input type="text" id="playerName"><br>
+    <button type="submit">Submit</button>
+  </form>
 </div>
 <div id="instruction">Press Space to Start</div>
 <script>
@@ -66,6 +74,9 @@ var scoreElement = document.getElementById('score');
 var levelElement = document.getElementById('level');
 var gameOverElement = document.getElementById('gameOver');
 var instructionElement = document.getElementById('instruction');
+var leaderboardElement = document.getElementById('leaderboard');
+var playerNameInput = document.getElementById('playerName');
+var nameForm = document.getElementById('nameForm');
 
 // Load images
 var snakeHeadImg = new Image();
@@ -79,6 +90,7 @@ appleImg.src = 'pomme.png';
 
 snakeHeadImg.onload = function() {
   var grid = 16;
+  var count = 0;
   var score = 0;
   var gameStarted = false;
   var gameOver = false;
@@ -120,7 +132,6 @@ snakeHeadImg.onload = function() {
     gameOver = false;
     applesEaten = 0;
     scoreElement.textContent = "Score: " + score;
-    levelElement.textContent = "Level: " + level;
     gameOverElement.style.display = 'none';
     loop();
   }
