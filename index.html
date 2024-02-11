@@ -62,7 +62,10 @@
   </form>
 </div>
 <div id="instruction">Press Space to Start</div>
-<div id="leaderboard"></div>
+<div id="leaderboard">
+  <h2>Leaderboard</h2>
+  <ol id="leaderboardList"></ol>
+</div>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
@@ -233,18 +236,38 @@ snakeHeadImg.onload = function() {
   });
 
   function addToLeaderboard(name, score) {
-    var leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-    leaderboard.push({ name: name, score: score });
-    leaderboard.sort((a, b) => b.score - a.score); // Trier par score décroissant
-    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+    fetch('leaderboard.json')
+      .then(response => response.json())
+      .then(data => {
+        data.push({ name: name, score: score });
+        data.sort((a, b) => b.score - a.score); // Trier par score décroissant
+        return data;
+      })
+      .then(data => {
+        fetch('leaderboard.json', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+      })
+      .catch(error => console.error('Error updating leaderboard:', error));
   }
 
   function updateLeaderboard() {
-    var leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-    leaderboardElement.innerHTML = '<h2>Leaderboard</h2>';
-    leaderboard.forEach(function(entry, index) {
-      leaderboardElement.innerHTML += '<div>' + (index + 1) + '. ' + entry.name + ': ' + entry.score + '</div>';
-    });
+    fetch('leaderboard.json')
+      .then(response => response.json())
+      .then(data => {
+        var leaderboardList = document.getElementById('leaderboardList');
+        leaderboardList.innerHTML = ''; // Efface les anciennes entrées du leaderboard
+        data.forEach((entry, index) => {
+          var listItem = document.createElement('li');
+          listItem.textContent = `${index + 1}. ${entry.name}: ${entry.score}`;
+          leaderboardList.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error updating leaderboard:', error));
   }
 
   updateLeaderboard();
